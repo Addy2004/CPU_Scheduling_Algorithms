@@ -265,8 +265,9 @@ void priority(int burst_times[], int priority_list[]) {
 	println();
 	int counter = 0;
 	for (int i = 0; i < SIZE; i++) {
-		waiting_times[i] = counter;
-		counter += burst_times[minimum_element_index(priority_list)];
+		int value = minimum_element_index(priority_list);
+		waiting_times[value] = counter;
+		counter += burst_times[value];
 	}
 	printf("Waiting-times:					");
 	print_arr(waiting_times); // Prints burst-times
