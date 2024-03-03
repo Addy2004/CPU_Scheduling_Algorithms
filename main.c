@@ -300,10 +300,10 @@ int main() {
 	fcfs(burst_times);
 	sjf(burst_times);
 
-	int srjf_arrival_times[SIZE] = { 0, 1, 2, 3 };
+	int srjf_arrival_times[SIZE] = { 0, 1, 2, 3 }; // Preemptive arrival times
 	srjf(burst_times, srjf_arrival_times);
 
-	int priority_list[SIZE] = { 3, 1, 4, 2 };
+	int priority_list[SIZE] = { 3, 1, 4, 2 };      // Priority list
 	priority(burst_times, priority_list);
 
 	printf("\n");
