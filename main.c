@@ -228,7 +228,7 @@ void srjf(int burst_times[], int arrival_times[]) {
 		printf("%d	", completion_times[i]);
 	}
 	println();
-	printf("TAT-times (in ms):				");
+	printf("Turnaround-times (in ms):			");
 	for (int i = 0; i < SIZE; i++) {
 		TAT_times[i] = completion_times[i] - arrival_times[i];
 		printf("%d	", TAT_times[i]);
