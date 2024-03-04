@@ -20,7 +20,7 @@ void print_arr(int arr[]) {
 	return;
 }
 
-// Returns the smallest element's index in an array
+// Returns the smallest element's index in an array (only for Priority Scheduling)
 int minimum_element_index(int arr[]) {
 	int index = 0;
 	int min = arr[0];
@@ -179,8 +179,7 @@ void srjf(int burst_times[], int arrival_times[]) {
 	int* arr = (int*)malloc(sizeof(NULL));
 	while (counter < total_time) {
 		if (/*counter < SIZE*/arrival_times[arrival_counter] == counter) {
-			arrival_counter++;
-			int* tmp = (int*)realloc(arr, (counter + 1) * sizeof(int));
+			int* tmp = (int*)realloc(arr, (arrival_counter+1) * sizeof(int));
 			if (tmp != NULL) {
 				arr = tmp;
 			}
@@ -188,9 +187,10 @@ void srjf(int burst_times[], int arrival_times[]) {
 				printf("\nReallocated NULL\n");
 				exit(1);
 			}
-			arr[counter] = burst_times[counter];
+			arr[arrival_counter] = burst_times[arrival_counter];
+			arrival_counter++;
 		}
-		int condition = (counter < SIZE/*arrival_times[arrival_counter] == counter*/) ? counter + 1 : SIZE;
+		int condition = (arrival_counter - 1 < SIZE/*arrival_times[arrival_counter] == counter*/) ? arrival_counter : SIZE;
 		int index = 0;
 		int min = INT_MAX;
 		// finds the minimum element in an array
@@ -286,7 +286,7 @@ void priority(int burst_times[], int priority_list[]) {
 
 int main() {
 	// Declared burst-times
-	int burst_times[SIZE] = { 6, 8, 7, 3 };
+	int burst_times[SIZE] = { 20, 25, 10, 15 }; // Insert your burst times here
 	printf("Practical 3: CPU Scheduling Problems");
 	println();
 	printf("Operating Systems: CSE3003");
@@ -300,10 +300,10 @@ int main() {
 	fcfs(burst_times);
 	sjf(burst_times);
 
-	int srjf_arrival_times[SIZE] = { 0, 1, 2, 3 }; // Preemptive arrival times
+	int srjf_arrival_times[SIZE] = { 0, 15, 30, 45 }; // Insert your preemptive arrival times
 	srjf(burst_times, srjf_arrival_times);
 
-	int priority_list[SIZE] = { 3, 1, 4, 2 };      // Priority list
+	int priority_list[SIZE] = { 3, 1, 4, 2 };      // Insert the priority list
 	priority(burst_times, priority_list);
 
 	printf("\n");
