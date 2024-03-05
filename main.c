@@ -22,7 +22,7 @@ void print_arr(int arr[]) {
 }
 
 // Returns the smallest element's index in an array (only for priority scheduling [Non-preemptive])
-int minimum_element_index(int arr[]) {
+int minimum_element_index(int arr[], int bst[]) {
 	int index = 0;
 	int min = arr[0];
 	// finds the minimum element in an array
@@ -32,12 +32,52 @@ int minimum_element_index(int arr[]) {
 		}
 	}
 	// finds index of the minimum element in an array
+	int* check_arr = (int*)malloc(sizeof(NULL));
 	for (int i = 0; i < SIZE; i++) {
 		if (arr[i] == min) {
-			index = i;
+			int* check_tmp = (int*)realloc(check_arr, (1 * sizeof(int)));
+			if (check_tmp != NULL) {
+				check_arr = check_tmp;
+			}
+			else {
+				printf("\nReallocated NULL\n");
+				exit(1);
+			}
+			check_arr[0] = i;
+			int j_counter = 1;
+			for (int j = 0; j < SIZE; j++) {
+				if ((arr[j] == arr[i]) && (j != i)) {
+					int* check_tmp_2 = (int*)realloc(check_arr, ((j_counter + 1) * sizeof(int)));
+					if (check_tmp_2 != NULL) {
+						check_arr = check_tmp_2;
+					}
+					else {
+						printf("\nReallocated NULL\n");
+						exit(1);
+					}
+					check_arr[j_counter] = j;
+					j_counter++;
+				}
+			}
+			int check_index = 0;
+			int check_min = check_arr[0];
+			// finds the minimum element in an array
+			for (int k = 0; k < j_counter; ++k) {
+				if ((bst[check_arr[k]] < bst[check_min]) && (check_arr[k] != INT_MAX) && (bst[check_arr[k]] != 0)) {
+					check_min = check_arr[k];
+				}
+			}
+			for (int k = 0; k < j_counter; k++) {
+				if (check_arr[k] == check_min) {
+					check_index = k;
+					break;
+				}
+			}
+			index = check_arr[check_index];
 			break;
 		}
 	}
+	free(check_arr);
 	arr[index] = INT_MAX;
 	return index;
 }
@@ -270,7 +310,7 @@ void priority(int burst_times[], int priority_order[]) {
 	println();
 	int counter = 0;
 	for (int i = 0; i < SIZE; i++) {
-		int value = minimum_element_index(priority_list);
+		int value = minimum_element_index(priority_list, burst_times);
 		waiting_times[value] = counter;
 		counter += burst_times[value];
 	}
